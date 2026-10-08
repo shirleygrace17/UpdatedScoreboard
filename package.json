@@ -1,0 +1,37 @@
+{
+  "name": "player-scoreboard",
+  "version": "1.0.0",
+  "description": "Two-player Player Scoreboard desktop application",
+  "main": "main.js",
+  "author": "Player Scoreboard",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win nsis"
+  },
+  "devDependencies": {
+    "electron": "^38.0.0",
+    "electron-builder": "^26.0.0"
+  },
+  "build": {
+    "appId": "com.playerscoreboard.app",
+    "productName": "Player Scoreboard",
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "artifactName": "Player-Scoreboard-Setup-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
+}

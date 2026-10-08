@@ -1,0 +1,2702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+>
+
+<meta name="theme-color" content="#222222">
+
+<title>Player Score Board</title>
+
+<style>
+
+/* =====================================================
+   APP RESET
+===================================================== */
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+
+    width: 100%;
+    min-height: 100%;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #eeeeee;
+
+    touch-action: manipulation;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+
+/* =====================================================
+   APP
+===================================================== */
+
+.app {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* =====================================================
+   APP HEADER
+===================================================== */
+
+.app-header {
+
+    height: 58px;
+
+    background: #222222;
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 100;
+
+    box-shadow:
+        0 2px 8px rgba(0,0,0,0.25);
+}
+
+
+/* =====================================================
+   MAIN BOARD
+===================================================== */
+
+.board {
+
+    width: 100%;
+
+    max-width: 1400px;
+
+    min-height: calc(100vh - 58px);
+
+    margin: 0 auto;
+
+    background: white;
+
+    padding: 20px;
+
+}
+
+
+/* =====================================================
+   TOP SECTION
+===================================================== */
+
+.top-section {
+
+    display: grid;
+
+    grid-template-columns:
+        1fr 220px 1fr;
+
+    align-items: center;
+
+    text-align: center;
+
+    gap: 15px;
+}
+
+
+/* =====================================================
+   PLAYER
+===================================================== */
+
+.player-top {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+
+/* =====================================================
+   PLAYER IMAGE
+===================================================== */
+
+.player-picture {
+
+    width: 180px;
+
+    height: 180px;
+
+    object-fit: cover;
+
+    border:
+        5px solid #222;
+
+    border-radius: 15px;
+
+    background: #ddd;
+
+    display: block;
+
+    cursor: pointer;
+
+    transition:
+        transform .15s,
+        opacity .15s,
+        border-color .15s;
+
+    user-select: none;
+}
+
+.player-picture:active {
+
+    transform: scale(.96);
+
+    opacity: .8;
+
+    border-color: #0d6efd;
+}
+
+
+/* Hidden file input */
+
+.image-input {
+
+    display: none;
+}
+
+
+/* =====================================================
+   PLAYER NAME
+===================================================== */
+
+.player-name {
+
+    margin-top: 12px;
+
+    width: 200px;
+
+    min-width: 0;
+
+    font-size: 30px;
+
+    font-weight: bold;
+
+    text-transform: uppercase;
+
+    text-align: center;
+
+    cursor: pointer;
+
+    padding: 8px;
+
+    border-radius: 10px;
+
+    overflow-wrap: anywhere;
+
+    user-select: none;
+}
+
+.player-name:active {
+
+    background: #eeeeee;
+
+}
+
+
+/* =====================================================
+   NAME EDITOR
+===================================================== */
+
+.name-editor {
+
+    margin-top: 12px;
+
+    width: 200px;
+
+    padding: 10px;
+
+    font-size: 26px;
+
+    font-weight: bold;
+
+    text-align: center;
+
+    text-transform: uppercase;
+
+    border:
+        3px solid #0d6efd;
+
+    border-radius: 10px;
+
+    outline: none;
+
+    background: white;
+}
+
+
+/* =====================================================
+   RACE BOX
+===================================================== */
+
+.race-box {
+
+    font-size: 30px;
+
+    font-weight: bold;
+
+    background: #fafafa;
+
+    padding: 20px 10px;
+
+    border-radius: 15px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 10px;
+
+    white-space: nowrap;
+
+    user-select: none;
+}
+
+
+/* =====================================================
+   RACE NUMBERS
+===================================================== */
+
+.race-number {
+
+    display: inline-flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    min-width: 55px;
+
+    min-height: 55px;
+
+    padding: 5px 10px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    color: #0d6efd;
+
+    background: #eef5ff;
+
+    transition:
+        transform .15s,
+        background .15s;
+}
+
+.race-number:active {
+
+    transform: scale(.92);
+
+    background: #d9e9ff;
+}
+
+
+/* =====================================================
+   RACE EDITOR
+===================================================== */
+
+.race-editor {
+
+    width: 70px;
+
+    height: 55px;
+
+    padding: 5px;
+
+    font-size: 28px;
+
+    font-weight: bold;
+
+    text-align: center;
+
+    border:
+        3px solid #0d6efd;
+
+    border-radius: 10px;
+
+    outline: none;
+
+    background: white;
+}
+
+
+/* =====================================================
+   DIVIDER
+===================================================== */
+
+.divider {
+
+    height: 5px;
+
+    background: #222;
+
+    margin: 25px 0;
+}
+
+
+/* =====================================================
+   WINNER
+===================================================== */
+
+#winnerMessage {
+
+    text-align: center;
+
+    font-size: 36px;
+
+    font-weight: bold;
+
+    color: #c99700;
+
+    margin: 15px;
+
+    display: none;
+
+    padding: 12px;
+
+    border-radius: 12px;
+
+    background: #fff3cd;
+}
+
+
+/* =====================================================
+   SCORE AREA
+===================================================== */
+
+.score-area {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    min-height: 350px;
+}
+
+
+/* =====================================================
+   SCORE COLUMN
+===================================================== */
+
+.score-column {
+
+    text-align: center;
+
+    padding: 20px;
+}
+
+.score-column:first-child {
+
+    border-right:
+        4px solid #222;
+}
+
+
+/* =====================================================
+   SCORE LABEL
+===================================================== */
+
+.score-label {
+
+    font-size: 38px;
+
+    font-weight: bold;
+
+    margin-top: 10px;
+}
+
+
+/* =====================================================
+   SCORE NUMBER
+===================================================== */
+
+.score-number {
+
+    font-size: 150px;
+
+    font-weight: bold;
+
+    line-height: 1;
+
+    margin: 25px 0;
+
+    user-select: none;
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.buttons {
+
+    margin-top: 15px;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 8px;
+}
+
+
+button {
+
+    border: none;
+
+    padding: 15px 28px;
+
+    margin: 3px;
+
+    font-size: 22px;
+
+    font-weight: bold;
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    min-width: 90px;
+
+    min-height: 58px;
+
+    user-select: none;
+
+    transition:
+        transform .1s,
+        opacity .1s;
+}
+
+button:active {
+
+    transform: scale(.94);
+
+    opacity: .8;
+}
+
+
+/* PLUS */
+
+.plus {
+
+    background: #198754;
+
+    color: white;
+}
+
+
+/* MINUS */
+
+.minus {
+
+    background: #dc3545;
+
+    color: white;
+}
+
+
+/* RESET */
+
+.reset-button {
+
+    background: #333;
+
+    color: white;
+
+    width: 180px;
+
+}
+
+
+/* =====================================================
+   CONTROLS
+===================================================== */
+
+.controls {
+
+    text-align: center;
+
+    margin-top: 25px;
+
+    padding-bottom: 20px;
+}
+
+
+/* =====================================================
+   WINNER HIGHLIGHT
+===================================================== */
+
+.winner {
+
+    background: #fff3cd;
+
+    border-radius: 15px;
+
+    box-shadow:
+        inset 0 0 0 4px #ffc107;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 900px) {
+
+    .board {
+
+        padding: 15px;
+
+    }
+
+    .top-section {
+
+        grid-template-columns:
+            1fr 180px 1fr;
+
+        gap: 8px;
+
+    }
+
+    .player-picture {
+
+        width: 150px;
+
+        height: 150px;
+
+    }
+
+    .player-name {
+
+        width: 160px;
+
+        font-size: 25px;
+
+    }
+
+    .name-editor {
+
+        width: 160px;
+
+        font-size: 23px;
+
+    }
+
+    .race-box {
+
+        font-size: 25px;
+
+    }
+
+    .race-number {
+
+        min-width: 48px;
+
+        min-height: 48px;
+
+    }
+
+    .score-number {
+
+        font-size: 120px;
+
+    }
+
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 650px) {
+
+    body {
+
+        background: white;
+
+    }
+
+    .app-header {
+
+        height: 52px;
+
+        font-size: 18px;
+
+    }
+
+    .board {
+
+        min-height: calc(100vh - 52px);
+
+        padding: 12px 8px;
+
+    }
+
+
+    /* TOP */
+
+    .top-section {
+
+        grid-template-columns: 1fr 1fr;
+
+        grid-template-areas:
+
+            "race race"
+
+            "player1 player2";
+
+        gap: 12px;
+
+        align-items: start;
+
+    }
+
+
+    /* RACE */
+
+    .race-box {
+
+        grid-area: race;
+
+        width: 100%;
+
+        font-size: 26px;
+
+        padding: 12px 5px;
+
+        margin-bottom: 5px;
+
+    }
+
+
+    .race-number {
+
+        min-width: 52px;
+
+        min-height: 52px;
+
+        font-size: 28px;
+
+    }
+
+
+    /* PLAYERS */
+
+    .player-top:nth-child(1) {
+
+        grid-area: player1;
+
+    }
+
+    .player-top:nth-child(3) {
+
+        grid-area: player2;
+
+    }
+
+
+    /* IMAGES */
+
+    .player-picture {
+
+        width: 135px;
+
+        height: 135px;
+
+        border-width: 4px;
+
+        border-radius: 12px;
+
+    }
+
+
+    /* NAMES */
+
+    .player-name {
+
+        width: 145px;
+
+        font-size: 22px;
+
+        margin-top: 8px;
+
+        padding: 7px 3px;
+
+    }
+
+
+    .name-editor {
+
+        width: 145px;
+
+        font-size: 20px;
+
+        margin-top: 8px;
+
+        padding: 8px 3px;
+
+    }
+
+
+    /* DIVIDER */
+
+    .divider {
+
+        height: 3px;
+
+        margin: 18px 0;
+
+    }
+
+
+    /* WINNER */
+
+    #winnerMessage {
+
+        font-size: 25px;
+
+        margin: 10px 0;
+
+    }
+
+
+    /* SCORE */
+
+    .score-area {
+
+        grid-template-columns: 1fr 1fr;
+
+        min-height: 0;
+
+    }
+
+
+    .score-column {
+
+        padding: 8px 4px;
+
+    }
+
+
+    .score-column:first-child {
+
+        border-right:
+            2px solid #222;
+
+    }
+
+
+    .score-label {
+
+        font-size: 24px;
+
+        margin-top: 5px;
+
+    }
+
+
+    .score-number {
+
+        font-size: 85px;
+
+        margin: 15px 0;
+
+    }
+
+
+    /* BUTTONS */
+
+    .buttons {
+
+        gap: 2px;
+
+        margin-top: 5px;
+
+    }
+
+
+    button {
+
+        min-width: 0;
+
+        width: 47%;
+
+        padding: 12px 5px;
+
+        min-height: 52px;
+
+        font-size: 20px;
+
+        border-radius: 10px;
+
+    }
+
+
+    .controls {
+
+        margin-top: 18px;
+
+    }
+
+
+    .reset-button {
+
+        width: 200px;
+
+    }
+
+}
+
+
+/* =====================================================
+   SMALL PHONES
+===================================================== */
+
+@media (max-width: 380px) {
+
+    .player-picture {
+
+        width: 110px;
+
+        height: 110px;
+
+    }
+
+    .player-name {
+
+        width: 120px;
+
+        font-size: 19px;
+
+    }
+
+    .name-editor {
+
+        width: 120px;
+
+        font-size: 18px;
+
+    }
+
+    .race-box {
+
+        font-size: 23px;
+
+    }
+
+    .race-number {
+
+        min-width: 45px;
+
+        min-height: 45px;
+
+        font-size: 24px;
+
+    }
+
+    .score-number {
+
+        font-size: 72px;
+
+    }
+
+    button {
+
+        font-size: 18px;
+
+    }
+
+}
+
+
+/* =====================================================
+   LANDSCAPE PHONE
+===================================================== */
+
+@media (max-height: 500px) and (orientation: landscape) {
+
+    .app-header {
+
+        height: 45px;
+
+        font-size: 16px;
+
+    }
+
+    .board {
+
+        padding: 8px;
+
+    }
+
+    .top-section {
+
+        grid-template-columns:
+            1fr 180px 1fr;
+
+        grid-template-areas:
+            none;
+
+    }
+
+    .race-box {
+
+        grid-area: auto;
+
+    }
+
+    .player-top:nth-child(1),
+    .player-top:nth-child(3) {
+
+        grid-area: auto;
+
+    }
+
+    .player-picture {
+
+        width: 100px;
+
+        height: 100px;
+
+    }
+
+    .player-name {
+
+        font-size: 18px;
+
+        width: 110px;
+
+    }
+
+    .score-number {
+
+        font-size: 80px;
+
+        margin: 10px 0;
+
+    }
+
+    .divider {
+
+        margin: 10px 0;
+
+    }
+
+}
+
+
+/* =====================================================
+   PREVENT TEXT SELECTION ON GAME CONTROLS
+===================================================== */
+
+.score-number,
+.score-label,
+.race-box,
+.race-number,
+.player-picture,
+button {
+
+    -webkit-user-select: none;
+
+    user-select: none;
+
+}
+
+
+/* =====================================================
+   LOGIN SCREEN
+===================================================== */
+#loginScreen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #222;
+    padding: 20px;
+}
+.login-box {
+    width: min(380px, 100%);
+    background: white;
+    border-radius: 18px;
+    padding: 30px 25px;
+    box-shadow: 0 10px 35px rgba(0,0,0,.35);
+    text-align: center;
+}
+.login-box h2 { margin: 0 0 20px; font-size: 28px; }
+.login-box input {
+    width: 100%;
+    padding: 14px;
+    margin: 7px 0;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 18px;
+    outline: none;
+}
+.login-box input:focus { border-color: #0d6efd; }
+.login-box button {
+    width: 100%;
+    margin: 12px 0 0;
+    background: #0d6efd;
+    color: white;
+}
+#loginError {
+    color: #dc3545;
+    min-height: 22px;
+    margin-top: 8px;
+    font-weight: bold;
+}
+#appContent { display: none; }
+
+
+/* ===== ELECTRON LOGIN ===== */
+#electronLogin {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    background: #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+#electronLogin.hidden { display:none; }
+.login-card {
+    width: min(390px, 92vw);
+    background: white;
+    border-radius: 18px;
+    padding: 30px;
+    box-shadow: 0 15px 50px rgba(0,0,0,.4);
+}
+.login-card h1 { text-align:center; margin:0 0 25px; }
+.login-card label { display:block; font-weight:bold; margin:12px 0 6px; }
+.login-card input {
+    width:100%; padding:14px; border:1px solid #ccc;
+    border-radius:10px; font-size:17px; outline:none;
+}
+.login-card input:focus { border-color:#0d6efd; }
+.login-card button {
+    width:100%; margin-top:20px; padding:14px; border:0;
+    border-radius:10px; background:#198754; color:white;
+    font-size:18px; font-weight:bold; cursor:pointer;
+}
+.login-error {
+    display:none; background:#f8d7da; color:#842029;
+    padding:10px; border-radius:8px; text-align:center; margin-bottom:12px;
+}
+.electron-toolbar {
+    position:fixed; right:10px; top:10px; z-index:99999;
+    display:flex; gap:6px;
+}
+.electron-toolbar button {
+    min-width:auto; width:auto; min-height:auto; padding:7px 10px;
+    font-size:13px; border-radius:7px;
+}
+#logoutBtn { background:#dc3545; color:white; }
+
+</style>
+
+</head>
+
+
+<body>
+
+<div id="electronLogin">
+  <form class="login-card" id="loginForm" autocomplete="off">
+    <h1>🏆 Player Scoreboard</h1>
+    <div id="loginError" class="login-error">Invalid username or password.</div>
+    <label for="loginUsername">Username</label>
+    <input id="loginUsername" type="text" autocomplete="username" required>
+    <label for="loginPassword">Password</label>
+    <input id="loginPassword" type="password" autocomplete="current-password" required>
+    <button type="submit">LOGIN</button>
+  </form>
+</div>
+<div class="electron-toolbar" id="electronToolbar" style="display:none">
+  <button id="logoutBtn">Logout</button>
+</div>
+
+
+
+<div id="loginScreen">
+    <div class="login-box">
+        <h2>🔐 Player Scoreboard</h2>
+        <input type="text" id="username" placeholder="Username" autocomplete="username">
+        <input type="password" id="password" placeholder="Password" autocomplete="current-password">
+        <button type="button" onclick="login()">LOGIN</button>
+        <div id="loginError"></div>
+    </div>
+</div>
+
+
+
+<div class="app">
+
+
+    <!-- =================================================
+         APP HEADER
+    ================================================== -->
+
+    <div class="app-header">
+
+        🏆 PLAYER SCOREBOARD
+
+    </div>
+
+
+    <!-- =================================================
+         BOARD
+    ================================================== -->
+
+    <div class="board">
+
+
+        <!-- =================================================
+             TOP SECTION
+        ================================================== -->
+
+        <div class="top-section">
+
+
+            <!-- =================================================
+                 PLAYER 1
+            ================================================== -->
+
+            <div class="player-top">
+
+
+                <input
+                    id="imageInput1"
+                    class="image-input"
+                    type="file"
+                    accept="image/*"
+                    onchange="uploadPicture(1,event)"
+                >
+
+
+                <img
+                    id="picture1"
+                    class="player-picture"
+                    src="https://via.placeholder.com/180"
+                    alt="Player 1"
+                    title="Tap to change image"
+                    onclick="
+                        document
+                        .getElementById('imageInput1')
+                        .click()
+                    "
+                >
+
+
+                <div
+                    id="name1"
+                    class="player-name"
+                    onclick="editName(1)"
+                    title="Tap to edit name"
+                >
+                    PLAYER 1
+                </div>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 RACE
+            ================================================== -->
+
+            <div class="race-box">
+
+
+                <span
+                    id="race1"
+                    class="race-number"
+                    onclick="editRace(1)"
+                    title="Tap to edit"
+                >
+                    4
+                </span>
+
+
+                <span>
+                    RACE
+                </span>
+
+
+                <span
+                    id="race2"
+                    class="race-number"
+                    onclick="editRace(2)"
+                    title="Tap to edit"
+                >
+                    5
+                </span>
+
+
+            </div>
+
+
+            <!-- =================================================
+                 PLAYER 2
+            ================================================== -->
+
+            <div class="player-top">
+
+
+                <input
+                    id="imageInput2"
+                    class="image-input"
+                    type="file"
+                    accept="image/*"
+                    onchange="uploadPicture(2,event)"
+                >
+
+
+                <img
+                    id="picture2"
+                    class="player-picture"
+                    src="https://via.placeholder.com/180"
+                    alt="Player 2"
+                    title="Tap to change image"
+                    onclick="
+                        document
+                        .getElementById('imageInput2')
+                        .click()
+                    "
+                >
+
+
+                <div
+                    id="name2"
+                    class="player-name"
+                    onclick="editName(2)"
+                    title="Tap to edit name"
+                >
+                    PLAYER 2
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             DIVIDER
+        ================================================== -->
+
+        <div class="divider"></div>
+
+
+        <!-- =================================================
+             WINNER
+        ================================================== -->
+
+        <div id="winnerMessage"></div>
+
+
+        <!-- =================================================
+             SCORE AREA
+        ================================================== -->
+
+        <div class="score-area">
+
+
+            <!-- PLAYER 1 SCORE -->
+
+            <div
+                class="score-column"
+                id="scoreColumn1"
+            >
+
+
+                <div class="score-label">
+
+                    SCORE
+
+                </div>
+
+
+                <div
+                    class="score-number"
+                    id="score1"
+                >
+                    0
+                </div>
+
+
+                <div class="buttons">
+
+
+                    <button
+                        class="plus"
+                        onclick="changeScore(1,1)"
+                    >
+                        +1
+                    </button>
+
+
+                    <button
+                        class="minus"
+                        onclick="changeScore(1,-1)"
+                    >
+                        -1
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+
+            <!-- PLAYER 2 SCORE -->
+
+            <div
+                class="score-column"
+                id="scoreColumn2"
+            >
+
+
+                <div class="score-label">
+
+                    SCORE
+
+                </div>
+
+
+                <div
+                    class="score-number"
+                    id="score2"
+                >
+                    0
+                </div>
+
+
+                <div class="buttons">
+
+
+                    <button
+                        class="plus"
+                        onclick="changeScore(2,1)"
+                    >
+                        +1
+                    </button>
+
+
+                    <button
+                        class="minus"
+                        onclick="changeScore(2,-1)"
+                    >
+                        -1
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =================================================
+             RESET
+        ================================================== -->
+
+        <div class="controls">
+
+
+            <button
+                class="reset-button"
+                onclick="resetGame()"
+            >
+                🔄 RESET
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   LOGIN / AUTHENTICATION
+   Default username: admin
+   Default password: 1234
+===================================================== */
+const LOGIN_USERNAME = "admin";
+const LOGIN_PASSWORD = "1234";
+
+function login() {
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value;
+
+    if (username === LOGIN_USERNAME && password === LOGIN_PASSWORD) {
+        sessionStorage.setItem("scoreboardLoggedIn", "true");
+        document.getElementById("loginScreen").style.display = "none";
+        document.querySelector(".app").style.display = "flex";
+        document.getElementById("password").value = "";
+        loadSavedData();
+    } else {
+        document.getElementById("loginError").textContent =
+            "Invalid username or password.";
+        document.getElementById("password").value = "";
+    }
+}
+
+function showLogin() {
+    document.getElementById("loginScreen").style.display = "flex";
+    document.querySelector(".app").style.display = "none";
+    document.getElementById("username").focus();
+}
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Enter" &&
+        document.getElementById("loginScreen").style.display !== "none") {
+        login();
+    }
+});
+
+/* Keep the scoreboard hidden until the user logs in. */
+if (sessionStorage.getItem("scoreboardLoggedIn") === "true") {
+    document.getElementById("loginScreen").style.display = "none";
+    document.querySelector(".app").style.display = "flex";
+}
+
+
+/* =====================================================
+   SETTINGS
+===================================================== */
+
+let raceTarget1 =
+    Number(
+        localStorage.getItem(
+            "raceTarget1"
+        )
+    ) || 4;
+
+
+let raceTarget2 =
+    Number(
+        localStorage.getItem(
+            "raceTarget2"
+        )
+    ) || 5;
+
+
+let gameOver = false;
+
+
+let players = {
+
+    1: {
+
+        score:
+            Number(
+                localStorage.getItem(
+                    "score1"
+                )
+            ) || 0
+
+    },
+
+    2: {
+
+        score:
+            Number(
+                localStorage.getItem(
+                    "score2"
+                )
+            ) || 0
+
+    }
+
+};
+
+
+/* =====================================================
+   INDEXED DB
+===================================================== */
+
+let db;
+
+const DB_NAME =
+    "PlayerScoreBoardDB";
+
+const DB_VERSION = 1;
+
+const STORE_NAME =
+    "images";
+
+
+/* =====================================================
+   OPEN DATABASE
+===================================================== */
+
+function openDatabase() {
+
+    return new Promise(
+        function(resolve, reject) {
+
+            let request =
+                indexedDB.open(
+                    DB_NAME,
+                    DB_VERSION
+                );
+
+
+            request.onupgradeneeded =
+                function(event) {
+
+                    let database =
+                        event.target.result;
+
+
+                    if (
+                        !database
+                        .objectStoreNames
+                        .contains(
+                            STORE_NAME
+                        )
+                    ) {
+
+                        database
+                        .createObjectStore(
+                            STORE_NAME
+                        );
+
+                    }
+
+                };
+
+
+            request.onsuccess =
+                function(event) {
+
+                    db =
+                        event.target.result;
+
+                    resolve(db);
+
+                };
+
+
+            request.onerror =
+                function() {
+
+                    reject(
+                        request.error
+                    );
+
+                };
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   SAVE IMAGE
+===================================================== */
+
+function saveImage(
+    player,
+    file
+) {
+
+    return new Promise(
+        function(resolve, reject) {
+
+            let transaction =
+                db.transaction(
+                    STORE_NAME,
+                    "readwrite"
+                );
+
+
+            let store =
+                transaction
+                .objectStore(
+                    STORE_NAME
+                );
+
+
+            let request =
+                store.put(
+                    file,
+                    "player" + player
+                );
+
+
+            request.onsuccess =
+                function() {
+
+                    resolve();
+
+                };
+
+
+            request.onerror =
+                function() {
+
+                    reject(
+                        request.error
+                    );
+
+                };
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   LOAD IMAGE
+===================================================== */
+
+function loadImage(
+    player
+) {
+
+    return new Promise(
+        function(resolve, reject) {
+
+            let transaction =
+                db.transaction(
+                    STORE_NAME,
+                    "readonly"
+                );
+
+
+            let store =
+                transaction
+                .objectStore(
+                    STORE_NAME
+                );
+
+
+            let request =
+                store.get(
+                    "player" + player
+                );
+
+
+            request.onsuccess =
+                function() {
+
+                    resolve(
+                        request.result
+                    );
+
+                };
+
+
+            request.onerror =
+                function() {
+
+                    reject(
+                        request.error
+                    );
+
+                };
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   LOAD SAVED DATA
+===================================================== */
+
+async function loadSavedData() {
+
+    try {
+
+        await openDatabase();
+
+
+        /* NAMES */
+
+        let savedName1 =
+            localStorage.getItem(
+                "playerName1"
+            );
+
+
+        let savedName2 =
+            localStorage.getItem(
+                "playerName2"
+            );
+
+
+        if (savedName1) {
+
+            document
+            .getElementById(
+                "name1"
+            )
+            .textContent =
+                savedName1;
+
+        }
+
+
+        if (savedName2) {
+
+            document
+            .getElementById(
+                "name2"
+            )
+            .textContent =
+                savedName2;
+
+        }
+
+
+        /* RACE */
+
+        document
+        .getElementById(
+            "race1"
+        )
+        .textContent =
+            raceTarget1;
+
+
+        document
+        .getElementById(
+            "race2"
+        )
+        .textContent =
+            raceTarget2;
+
+
+        /* SCORES */
+
+        updateDisplay(1);
+
+        updateDisplay(2);
+
+
+        /* IMAGE 1 */
+
+        let image1 =
+            await loadImage(1);
+
+
+        if (image1) {
+
+            document
+            .getElementById(
+                "picture1"
+            )
+            .src =
+                URL.createObjectURL(
+                    image1
+                );
+
+        }
+
+
+        /* IMAGE 2 */
+
+        let image2 =
+            await loadImage(2);
+
+
+        if (image2) {
+
+            document
+            .getElementById(
+                "picture2"
+            )
+            .src =
+                URL.createObjectURL(
+                    image2
+                );
+
+        }
+
+
+        checkWinner();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Could not load saved data:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   EDIT NAME
+===================================================== */
+
+function editName(player) {
+
+    let nameElement =
+        document.getElementById(
+            "name" + player
+        );
+
+
+    if (
+        nameElement.tagName === "INPUT"
+    ) {
+
+        return;
+
+    }
+
+
+    let currentName =
+        nameElement
+        .textContent
+        .trim();
+
+
+    let input =
+        document.createElement(
+            "input"
+        );
+
+
+    input.type = "text";
+
+    input.value =
+        currentName;
+
+    input.className =
+        "name-editor";
+
+
+    nameElement.replaceWith(
+        input
+    );
+
+
+    input.focus();
+
+    input.select();
+
+
+    function saveName() {
+
+        if (!input.parentNode) {
+
+            return;
+
+        }
+
+
+        let newName =
+            input.value.trim();
+
+
+        if (newName === "") {
+
+            newName =
+                "PLAYER " + player;
+
+        }
+
+
+        localStorage.setItem(
+            "playerName" + player,
+            newName
+        );
+
+
+        let newElement =
+            document.createElement(
+                "div"
+            );
+
+
+        newElement.id =
+            "name" + player;
+
+
+        newElement.className =
+            "player-name";
+
+
+        newElement.textContent =
+            newName;
+
+
+        newElement.onclick =
+            function() {
+
+                editName(player);
+
+            };
+
+
+        newElement.title =
+            "Tap to edit name";
+
+
+        input.replaceWith(
+            newElement
+        );
+
+
+        /* Update winner if necessary */
+
+        if (
+            gameOver
+        ) {
+
+            checkWinner();
+
+        }
+
+    }
+
+
+    input.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                event.preventDefault();
+
+                input.blur();
+
+            }
+
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                input.replaceWith(
+                    nameElement
+                );
+
+            }
+
+        }
+    );
+
+
+    input.addEventListener(
+        "blur",
+        function() {
+
+            saveName();
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   EDIT RACE
+===================================================== */
+
+function editRace(player) {
+
+    let raceElement =
+        document.getElementById(
+            "race" + player
+        );
+
+
+    if (
+        raceElement.tagName === "INPUT"
+    ) {
+
+        return;
+
+    }
+
+
+    let currentRace =
+        player === 1
+            ? raceTarget1
+            : raceTarget2;
+
+
+    let input =
+        document.createElement(
+            "input"
+        );
+
+
+    input.type = "number";
+
+    input.min = "1";
+
+    input.value =
+        currentRace;
+
+    input.className =
+        "race-editor";
+
+
+    raceElement.replaceWith(
+        input
+    );
+
+
+    input.focus();
+
+    input.select();
+
+
+    function saveRace() {
+
+        if (!input.parentNode) {
+
+            return;
+
+        }
+
+
+        let newRace =
+            parseInt(
+                input.value
+            );
+
+
+        if (
+            isNaN(newRace) ||
+            newRace < 1
+        ) {
+
+            newRace =
+                currentRace;
+
+        }
+
+
+        if (
+            player === 1
+        ) {
+
+            raceTarget1 =
+                newRace;
+
+
+            localStorage.setItem(
+                "raceTarget1",
+                raceTarget1
+            );
+
+
+        } else {
+
+            raceTarget2 =
+                newRace;
+
+
+            localStorage.setItem(
+                "raceTarget2",
+                raceTarget2
+            );
+
+        }
+
+
+        let newElement =
+            document.createElement(
+                "span"
+            );
+
+
+        newElement.id =
+            "race" + player;
+
+
+        newElement.className =
+            "race-number";
+
+
+        newElement.textContent =
+            newRace;
+
+
+        newElement.onclick =
+            function() {
+
+                editRace(player);
+
+            };
+
+
+        newElement.title =
+            "Tap to edit";
+
+
+        input.replaceWith(
+            newElement
+        );
+
+
+        /* Limit score */
+
+        let target =
+            player === 1
+                ? raceTarget1
+                : raceTarget2;
+
+
+        if (
+            players[player].score >
+            target
+        ) {
+
+            players[player].score =
+                target;
+
+            updateDisplay(player);
+
+            saveScores();
+
+        }
+
+
+        gameOver = false;
+
+        checkWinner();
+
+    }
+
+
+    input.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Enter"
+            ) {
+
+                event.preventDefault();
+
+                input.blur();
+
+            }
+
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                let restore =
+                    document.createElement(
+                        "span"
+                    );
+
+
+                restore.id =
+                    "race" + player;
+
+
+                restore.className =
+                    "race-number";
+
+
+                restore.textContent =
+                    currentRace;
+
+
+                restore.onclick =
+                    function() {
+
+                        editRace(player);
+
+                    };
+
+
+                restore.title =
+                    "Tap to edit";
+
+
+                input.replaceWith(
+                    restore
+                );
+
+            }
+
+        }
+    );
+
+
+    input.addEventListener(
+        "blur",
+        function() {
+
+            saveRace();
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   CHANGE SCORE
+===================================================== */
+
+function changeScore(
+    player,
+    amount
+) {
+
+    if (gameOver) {
+
+        return;
+
+    }
+
+
+    players[player].score +=
+        amount;
+
+
+    let target =
+        player === 1
+            ? raceTarget1
+            : raceTarget2;
+
+
+    if (
+        players[player].score < 0
+    ) {
+
+        players[player].score =
+            0;
+
+    }
+
+
+    if (
+        players[player].score >
+        target
+    ) {
+
+        players[player].score =
+            target;
+
+    }
+
+
+    updateDisplay(player);
+
+    saveScores();
+
+    checkWinner();
+
+}
+
+
+/* =====================================================
+   UPDATE DISPLAY
+===================================================== */
+
+function updateDisplay(
+    player
+) {
+
+    document
+    .getElementById(
+        "score" + player
+    )
+    .textContent =
+        players[player].score;
+
+}
+
+
+/* =====================================================
+   SAVE SCORES
+===================================================== */
+
+function saveScores() {
+
+    localStorage.setItem(
+        "score1",
+        players[1].score
+    );
+
+
+    localStorage.setItem(
+        "score2",
+        players[2].score
+    );
+
+}
+
+
+/* =====================================================
+   UPLOAD PICTURE
+===================================================== */
+
+async function uploadPicture(
+    player,
+    event
+) {
+
+    let file =
+        event.target.files[0];
+
+
+    if (!file) {
+
+        return;
+
+    }
+
+
+    if (
+        !file.type.startsWith(
+            "image/"
+        )
+    ) {
+
+        alert(
+            "Please select an image."
+        );
+
+        return;
+
+    }
+
+
+    let imageURL =
+        URL.createObjectURL(
+            file
+        );
+
+
+    document
+    .getElementById(
+        "picture" + player
+    )
+    .src =
+        imageURL;
+
+
+    try {
+
+        await saveImage(
+            player,
+            file
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Could not save image:",
+            error
+        );
+
+        alert(
+            "The image could not be saved."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   CHECK WINNER
+===================================================== */
+
+function checkWinner() {
+
+    /* Remove old highlights */
+
+    document
+    .getElementById(
+        "scoreColumn1"
+    )
+    .classList.remove(
+        "winner"
+    );
+
+
+    document
+    .getElementById(
+        "scoreColumn2"
+    )
+    .classList.remove(
+        "winner"
+    );
+
+
+    if (
+        players[1].score >=
+        raceTarget1
+    ) {
+
+        showWinner(1);
+
+        return;
+
+    }
+
+
+    if (
+        players[2].score >=
+        raceTarget2
+    ) {
+
+        showWinner(2);
+
+        return;
+
+    }
+
+
+    gameOver = false;
+
+
+    document
+    .getElementById(
+        "winnerMessage"
+    )
+    .style.display =
+        "none";
+
+}
+
+
+/* =====================================================
+   SHOW WINNER
+===================================================== */
+
+function showWinner(
+    player
+) {
+
+    gameOver = true;
+
+
+    let playerName =
+        document
+        .getElementById(
+            "name" + player
+        )
+        .textContent
+        .trim()
+        .toUpperCase();
+
+
+    let winnerMessage =
+        document
+        .getElementById(
+            "winnerMessage"
+        );
+
+
+    winnerMessage.textContent =
+        "🏆 " +
+        playerName +
+        " WINS! 🏆";
+
+
+    winnerMessage.style.display =
+        "block";
+
+
+    document
+    .getElementById(
+        "scoreColumn" + player
+    )
+    .classList.add(
+        "winner"
+    );
+
+}
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+function resetGame() {
+
+    gameOver = false;
+
+
+    players[1].score = 0;
+
+    players[2].score = 0;
+
+
+    updateDisplay(1);
+
+    updateDisplay(2);
+
+
+    saveScores();
+
+
+    document
+    .getElementById(
+        "winnerMessage"
+    )
+    .style.display =
+        "none";
+
+
+    document
+    .getElementById(
+        "scoreColumn1"
+    )
+    .classList.remove(
+        "winner"
+    );
+
+
+    document
+    .getElementById(
+        "scoreColumn2"
+    )
+    .classList.remove(
+        "winner"
+    );
+
+}
+
+
+/* =====================================================
+   START APP
+===================================================== */
+
+/* loadSavedData() is started by login() after authentication. */
+if (sessionStorage.getItem("scoreboardLoggedIn") === "true") {
+    loadSavedData();
+}
+
+</script>
+
+<script>
+
+/* ===== ELECTRON LOGIN =====
+   Default credentials:
+   Username: admin
+   Password: 1234
+*/
+const LOGIN_USERNAME = "admin";
+const LOGIN_PASSWORD = "1234";
+
+function showScoreboard() {
+    document.getElementById("electronLogin").classList.add("hidden");
+    document.getElementById("electronToolbar").style.display = "flex";
+}
+
+function showLogin() {
+    document.getElementById("electronLogin").classList.remove("hidden");
+    document.getElementById("electronToolbar").style.display = "none";
+    document.getElementById("loginPassword").value = "";
+    document.getElementById("loginUsername").focus();
+}
+
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const username = document.getElementById("loginUsername").value.trim();
+    const password = document.getElementById("loginPassword").value;
+    const error = document.getElementById("loginError");
+
+    if (username === LOGIN_USERNAME && password === LOGIN_PASSWORD) {
+        sessionStorage.setItem("scoreboardLoggedIn", "1");
+        error.style.display = "none";
+        showScoreboard();
+    } else {
+        error.style.display = "block";
+        document.getElementById("loginPassword").select();
+    }
+});
+
+document.getElementById("logoutBtn").addEventListener("click", function() {
+    sessionStorage.removeItem("scoreboardLoggedIn");
+    showLogin();
+});
+
+if (sessionStorage.getItem("scoreboardLoggedIn") === "1") {
+    showScoreboard();
+} else {
+    showLogin();
+}
+
+</script>
+</body>
+</html>
